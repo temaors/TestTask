@@ -4,17 +4,14 @@ namespace TestTask;
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
         CultureInfo.CurrentCulture = new CultureInfo("en");
-        
-        string? inputFilePath = GetInputFilePath();
-        if (IsFilePathCorrect(inputFilePath))
+        if (IsConsoleArgsFilled(args))
         {
-            string? outputFilePath = GetOutputFilePath();
-            if (IsFilePathCorrect(outputFilePath))
+            if (IsFilePathCorrect(args[0]) && IsFilePathCorrect(args[1]))
             {
-                FileDataSorter fileDataSorter = new FileDataSorter(inputFilePath, outputFilePath);
+                FileDataSorter fileDataSorter = new FileDataSorter(args[0], args[1]);
                 fileDataSorter.ReadDataFromFile();
 
                 fileDataSorter.SortData();
@@ -24,23 +21,22 @@ class Program
         }
     }
 
-    static string? GetInputFilePath()
+    static bool IsConsoleArgsFilled(string[] args)
     {
-        Console.WriteLine("Введите путь к исходному файлу:");
-        return Console.ReadLine();
-    }
+        if (args.Length != 2)
+        {
+            Console.WriteLine("Введите пути к входному и выходному файлу");
+            return false;
+        }
 
-    static string? GetOutputFilePath()
-    {
-        Console.WriteLine("Введите путь к конечному файлу:");
-        return Console.ReadLine();
+        return true;
     }
 
     static bool IsFilePathCorrect(string? path)
     {
         if (path == null || !File.Exists(path))
         {
-            Console.WriteLine("Файл не сущесвтует");
+            Console.WriteLine($"Файл {path} не сущесвтует");
             return false;
         }
         if (!path.EndsWith(".txt"))
