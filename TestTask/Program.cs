@@ -32,9 +32,9 @@ class Program
         return true;
     }
 
-    static bool IsFilePathCorrect(string? path)
+    static bool IsFilePathCorrect(string path)
     {
-        if (path == null || !File.Exists(path))
+        if (!File.Exists(path))
         {
             Console.WriteLine($"Файл {path} не сущесвтует");
             return false;
